@@ -4,53 +4,38 @@ const path = require("path");
 // parses the json for some reason
 const db = require('./db/db.json');
 
+const uuid = require('../uuid');
+
+const route = require('express').Router();
+
 // sends/displays homepage
-app.get("/", (req, res) => {
+route.get("/", (req, res) => {
    res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
-// sends/displays notes page
-app.get("/notes", (req, res) => {
+// BROKEN BROKEN BROKEN
+route.get("/notes", (req, res) => {
    res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
 //
-app.get("/api/notes", (req, res) => {
+route.get("/api/notes", (req, res) => {
    fs.readfile("Develop/db/db.json", (err, data) => {
       res.json(data);
    })
 });
 
-// Reads the newly added notes from the request body and then adds them to the db.json file
-const readThenAppendToJson = (content, file) => {
-   fs.readFile(file, "utf8", (err, data) => {
-     if (err) {
-       console.error(err);
-     } else {
-       const parsedData = JSON.parse(data);
-       parsedData.push(content);
-       writeNewNoteToJson(file, parsedData);
-     }
-   });
- };
- 
- // Writes data to db.json -> utilized within the readThenAppendToJson function
- const writeNewNoteToJson = (destination, content) =>
-   fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
-     err ? console.error(err) : console.info(`\nData written to ${destination}`)
-   );
-
-app.post("/api/notes", (req, res) => {
+route.post("/api/notes", (req, res) => {
    const { title, text } = req.body;
    const freshDrop = {
       title: title,
       text: text,
-      id: ,
+      id: uuid(),
    };
     
-   const wholeShebang = db;
+   let wholeShebang = db;
    wholeShebang.push(freshDrop);
-   fs.writeFileSync(path.join(__dirname, "Develop/db/db.json"), JSON.stringify(wholeShebang))
+   fs.writeFileSync(path.join(__dirname, "Develop/db/db.json"), JSON.stringify(wholeShebang));
 
    const robotTalk = {
       status: "weeee are the chaaaampions",
@@ -58,16 +43,19 @@ app.post("/api/notes", (req, res) => {
    };
  
    res.json(robotTalk);
-   
- });
+});
 
- app.delete("/api/notes/:id", (req, res) => {
+route.delete("/api/notes/:id", (req, res) => {
    const id = req.params.id;
-   const wholeShebang = db;
+   let wholeShebang = db;
    fs.readFile("Develop/db/db.json", (err, data) => {
-      for (let i = 0; i < wholeShebang.length; i++) {
-         if (wholeShebang[i].id === id) {wholeShebang.splice(i, 1)}
-       }
+      for (let i = 0; i < data.length; i++) {
+         if (data[i].id === id) {data.splice(i, 1)}
+      };
+      let wholeShebang = data;
+      fs.writeFileSync(path.join(__dirname, "Develop/db/db.json"), JSON.stringify(wholeShebang));
    });
    res.send(`note #${id} has died a horrible death`);
- });
+});
+
+module.exports = route;
