@@ -1,6 +1,16 @@
 [
-    {
-        "title":"Test Title",
-        "text":"Test text"
-    }
+   {
+      "title":"Weekends",
+      "text":"Weekends are bad"
+   },
+
+   {
+      "title":"Pasta",
+      "text":"Pasta is bad"
+   },
+   
+   {
+      "title":"Fun",
+      "text":"Fun is bad"
+   }
 ]
