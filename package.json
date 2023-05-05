@@ -1,9 +1,4 @@
 {
-  "dependencies": {
-    "uuid": "^9.0.0"
-  }
-}
-{
    "name": "note-taker",
    "version": "1.0.0",
    "description": "",
@@ -17,8 +12,5 @@
    "dependencies": {
      "express": "^4.16.4",
      "uuid": "^9.0.0"
-   },
-   "engines": {
-    "node": "16.18.0"
-    }
+   }
  }
