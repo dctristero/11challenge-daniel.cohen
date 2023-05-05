@@ -2,27 +2,27 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 // parses the json for some reason
-const db = require('./db/db.json');
+const db = require('../db/db.json');
 
-const uuid = require('../uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const route = require('express').Router();
 
 // sends/displays homepage
 route.get("/", (req, res) => {
-   res.sendFile(path.join(__dirname, '/public/index.html'));
+   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // BROKEN BROKEN BROKEN
 route.get("/notes", (req, res) => {
-   res.sendFile(path.join(__dirname, '/public/notes.html'));
+   res.sendFile(path.join(__dirname, '../public/notes.html'));
 });
 
 //
 route.get("/api/notes", (req, res) => {
-   fs.readfile("Develop/db/db.json", (err, data) => {
-      res.json(data);
-   })
+   // fs.readfile("../db/db.json", (err, data) => {
+      res.json(db);
+   // })
 });
 
 route.post("/api/notes", (req, res) => {
@@ -30,12 +30,12 @@ route.post("/api/notes", (req, res) => {
    const freshDrop = {
       title: title,
       text: text,
-      id: uuid(),
+      id: uuidv4(),
    };
     
    let wholeShebang = db;
    wholeShebang.push(freshDrop);
-   fs.writeFileSync(path.join(__dirname, "Develop/db/db.json"), JSON.stringify(wholeShebang));
+   fs.writeFileSync(path.join(__dirname, "../db/db.json"), JSON.stringify(wholeShebang));
 
    const robotTalk = {
       status: "weeee are the chaaaampions",
@@ -47,14 +47,10 @@ route.post("/api/notes", (req, res) => {
 
 route.delete("/api/notes/:id", (req, res) => {
    const id = req.params.id;
-   let wholeShebang = db;
-   fs.readFile("Develop/db/db.json", (err, data) => {
-      for (let i = 0; i < data.length; i++) {
-         if (data[i].id === id) {data.splice(i, 1)}
-      };
-      let wholeShebang = data;
-      fs.writeFileSync(path.join(__dirname, "Develop/db/db.json"), JSON.stringify(wholeShebang));
-   });
+   for (let i = 0; i < db.length; i++) {
+      if (db[i].id === id) {db.splice(i, 1)}
+   };
+   fs.writeFileSync(path.join(__dirname, "../db/db.json"), JSON.stringify(db))
    res.send(`note #${id} has died a horrible death`);
 });
 

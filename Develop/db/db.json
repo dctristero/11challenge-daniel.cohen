@@ -1,16 +1,1 @@
-[
-   {
-      "title":"Weekends",
-      "text":"Weekends are bad"
-   },
-
-   {
-      "title":"Pasta",
-      "text":"Pasta is bad"
-   },
-   
-   {
-      "title":"Fun",
-      "text":"Fun is bad"
-   }
-]
+[{"title":"Weekends","text":"Weekends are bad","id":"ea37d521-b5a4-4ec4-ad26-91c5958e1b57"},{"title":"Pasta","text":"Pasta is bad","id":"cb972ce3-fcf0-47c1-a1da-e1467b0f396b"},{"title":"Fun","text":"Fun is bad","id":"e2e046a7-dfb8-4595-b8cf-97b0deceb821"}]
